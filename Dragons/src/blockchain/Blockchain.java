@@ -8,7 +8,6 @@ public class Blockchain {
 	private LinkedList<Record> list;
 	
 	public Blockchain() {
-		
 	}
 	
 	public void addRecord(Record r) {
@@ -44,5 +43,4 @@ public class Blockchain {
 		System.out.println("");
 		
 	}
-
 }
