@@ -3,6 +3,7 @@ package blockchain;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Timestamp;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -156,6 +157,47 @@ public class Main {
         
     }
 	
+	private static void inputRecordTime(BufferedReader br) {
+    	
+		System.out.println("####################################################");
+    	System.out.println("#              Record Retrieval Module             #");
+    	System.out.println("####################################################");
+		System.out.println("Enter the time frame.");
+		System.out.println("Format: YYY-MM-DD 00:00:00");
+    	System.out.println("Enter q to quit.");
+    	
+    	while(true) {
+	    	try {
+	    		System.out.println("Enter the starting date and time.");
+				String start = getString(br);
+				
+				if (start.equals("q")) {
+		    		currentInput = Main::inputOptions;
+					break;
+				}
+				else {
+					
+					Timestamp startTimestamp = Timestamp.valueOf(start);
+					System.out.println("Enter the ending date and time.");
+					String end = getString(br);
+					Timestamp endTimestamp = Timestamp.valueOf(end);
+					
+					System.out.println("Record retrieved.");
+					System.out.println(medRecords.getListByDateWindow(startTimestamp, endTimestamp));
+					
+				}
+				
+			}
+			catch (java.util.NoSuchElementException e1) {
+				System.err.println("Invalid Format!");
+			}
+			catch (java.lang.NullPointerException e2) {
+				System.err.println("Invalid Format!");
+			}
+    	}
+        
+    }
+	
     private static void inputOptions(BufferedReader br) {
     	
     	System.out.println("####################################################");
@@ -166,6 +208,7 @@ public class Main {
     	System.out.println("1. Add record");
     	System.out.println("2. Get record by name");
     	System.out.println("3. Get record by provider");
+    	System.out.println("4. Get record by time frame");
     	
     	int i = getInteger(br);
     	
@@ -181,6 +224,9 @@ public class Main {
 	            break; 
 	        case 3:
 	        	currentInput = Main::inputRecordProvider;
+	            break; 
+	        case 4:
+	        	currentInput = Main::inputRecordTime;
 	            break; 
     	}
         
