@@ -44,6 +44,9 @@ public class Main {
 	
 	private static void inputAddRecord(BufferedReader br) {
     	
+		System.out.println("####################################################");
+    	System.out.println("#                Record Input Module               #");
+    	System.out.println("####################################################");
     	System.out.println("Enter record info.");
     	System.out.println("Format: first,last,ssn,provider");
     	System.out.println("Enter q to quit.");
@@ -84,6 +87,9 @@ public class Main {
 	
 	private static void inputRecordName(BufferedReader br) {
     	
+		System.out.println("####################################################");
+    	System.out.println("#              Record Retrieval Module             #");
+    	System.out.println("####################################################");
     	System.out.println("Enter patient's full name.");
     	System.out.println("Format: first,last");
     	System.out.println("Enter q to quit.");
@@ -119,6 +125,9 @@ public class Main {
 	
 	private static void inputRecordProvider(BufferedReader br) {
     	
+		System.out.println("####################################################");
+    	System.out.println("#              Record Retrieval Module             #");
+    	System.out.println("####################################################");
 		System.out.println("Enter provider's name.");
     	System.out.println("Enter q to quit.");
     	
@@ -149,6 +158,9 @@ public class Main {
 	
     private static void inputOptions(BufferedReader br) {
     	
+    	System.out.println("####################################################");
+    	System.out.println("#                     Main Menu                    #");
+    	System.out.println("####################################################");
     	System.out.println("Select an option.");
     	System.out.println("0. Quit");
     	System.out.println("1. Add record");
