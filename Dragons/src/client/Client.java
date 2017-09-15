@@ -15,21 +15,28 @@ public class Client {
 			 BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 			 BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))//Reads user input
 			 ) {
-			displayMenu();
-			String option = getUserOption(stdIn);
-			out.println(option);
-			if(option.equals("N") || option.equals("n")) {
-				getUserInfo(stdIn, out);
-				stdIn.close();
-				in.close();
-				out.close();
-				sock.close();
-			}
-			else if(option.equals("Q") || option.equals("q")) {
-				stdIn.close();
-				in.close();
-				out.close();
-				sock.close();
+			while(true) {
+				displayMenu();
+				String option = getUserOption(stdIn);
+				out.println(option);
+				if(option.equals("N") || option.equals("n")) {
+					getUserInfo(stdIn, out);
+				}
+				else if(option.equals("G") || option.equals("g")) {
+					requestList(stdIn, out);
+					String info = in.readLine();
+					System.out.println("===================================");
+					System.out.println("Received: " + info);
+					System.out.println("===================================");
+					System.out.println();
+				}
+				else if(option.equals("Q") || option.equals("q")) {
+					stdIn.close();
+					in.close();
+					out.close();
+					sock.close();
+					break;
+				}
 			}
 		}		
 	}
@@ -48,7 +55,9 @@ public class Client {
 		do {
 			System.out.println("Option:");
 			option = stdIn.readLine();
-		} while ( !option.equals("N") && !option.equals("n") && !option.equals("Q") && !option.equals("q") );
+		} while (!option.equals("N") && !option.equals("n") && 
+				 !option.equals("G") && !option.equals("g") &&
+				 !option.equals("Q") && !option.equals("q"));
 		return option;
 	}
 	
@@ -93,5 +102,15 @@ public class Client {
 			provider = stdIn.readLine();
 		} while (provider.length() == 0);
 		out.println(provider);
+		System.out.println();
+	}
+	
+	private static void requestList(BufferedReader stdIn, PrintWriter out) throws IOException {
+		String name;
+		do {
+			System.out.println("Enter your name:");
+			name = stdIn.readLine();
+		} while(name.length() == 0);
+		out.println(name);
 	}
 }
