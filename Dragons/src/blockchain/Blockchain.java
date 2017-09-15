@@ -30,9 +30,15 @@ public class Blockchain {
 		return listWithName;
 	}
 	
-	//TODO
 	public LinkedList<Record> getListByProvider(String provider) {
-		return list;
+		LinkedList<Record> l = list;
+		LinkedList<Record> listWithProvider = new LinkedList<Record>();
+		for(int i = 0; i < l.size(); i++) {
+			if (l.get(i).getProvider().equals(provider)) {
+				listWithProvider.add(l.get(i));
+			}
+		}
+		return listWithProvider;
 	}
 	
 	//TODO
