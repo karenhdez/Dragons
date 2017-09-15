@@ -1,4 +1,7 @@
 package blockchain;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.sql.Timestamp;
 
 public class Record {
 	public String firstName;
@@ -9,6 +12,8 @@ public class Record {
 	public String SHA256String;
 	public String signedSHA256;
 	public int verificationProcessID;
+	//public String timeStamp;
+	public Timestamp timestamp;
 	
 	public Record next;
 	
@@ -21,6 +26,8 @@ public class Record {
 		this.SHA256String = this.generateSHA256();
 		this.signedSHA256 = this.generateSignedSHA256();
 		this.verificationProcessID = this.generateProcessId();
+		//String time = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+		this.timestamp = new Timestamp(System.currentTimeMillis());
 	}
 	
 	//Temporary: for now generates random string
@@ -50,7 +57,7 @@ public class Record {
 	
 	//TODO: Add more attributes to return
 	public String toString(){
-		return "Name: " + this.firstName + " " + this.lastName;
+		return "Name: " + this.firstName + " " + this.lastName + " Provider: " + this.provider + " Time: " + this.timestamp;
 	}
 	
 	public Record getNext() {
@@ -59,5 +66,21 @@ public class Record {
 	
 	public String getFirstName() {
 		return firstName;
+	}
+	
+	public String getLastName() {
+		return lastName;
+	}
+	
+	public String getProvider() {
+		return provider;
+	}
+	
+	public Timestamp getTimestamp() {
+		return timestamp;
+	}
+	
+	public void setTimestamp(Timestamp ts) {
+		this.timestamp = ts;
 	}
 }
