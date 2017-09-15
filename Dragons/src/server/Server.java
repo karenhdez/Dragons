@@ -20,23 +20,41 @@ public class Server {
 	            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));//Reads from socket
 	        ) {
 				System.out.println("Connection made");
-	            String clientOption = in.readLine();
-	            if(clientOption.equals("N") || clientOption.equals("n")) {
-	            	String firstName = in.readLine();
-	            	String lastName = in.readLine();
-	            	int ssn = Integer.parseInt(in.readLine());
-	            	String provider = in.readLine();
-	            	Record clientRecord = generateClientRecord(firstName, lastName, ssn, provider);
-	            	block.addRecord(clientRecord);
-	            	System.out.println(block.getListByPatient(firstName));
-	            }
-	            else if(clientOption.equals("Q") || clientOption.equals("q")) {
-	            	in.close();
-	            	out.close();
-	            	clientSocket.close();
-	            	serverSocket.close();
-	            }
-	            
+				while(true) {
+					String clientOption = in.readLine();
+					if(clientOption.equals("N") || clientOption.equals("n")) {
+						String firstName = in.readLine();
+						String lastName = in.readLine();
+						int ssn = Integer.parseInt(in.readLine());
+						String provider = in.readLine();
+						Record clientRecord = generateClientRecord(firstName, lastName, ssn, provider);
+						
+						System.out.println("===================================");
+						System.out.println("Creating Record:");
+						System.out.println("  First Name: " + firstName);
+						System.out.println("  Last Name: " + lastName);
+						System.out.println("  SSN: " + ssn);
+						System.out.println("  Provider: " + provider);
+						System.out.println("===================================");
+						
+						block.addRecord(clientRecord);
+					}
+					else if(clientOption.equals("G") || clientOption.equals("g")) {
+						String name = in.readLine();
+						System.out.println("===================================");
+						System.out.println("Requested Info: " + name);
+						System.out.println("Info: " + block.getListByPatient(name));
+						System.out.println("===================================");
+						System.out.println();
+						out.println(block.getListByPatient(name));
+					}
+					else if(clientOption.equals("Q") || clientOption.equals("q")) {
+						in.close();
+						out.close();
+						clientSocket.close();
+						serverSocket.close();
+					}
+				}
 	        } catch (IOException e) {
 	            System.out.println(e.getMessage());
 	        }
