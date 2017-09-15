@@ -115,4 +115,8 @@ public class Record {
 	public String getFirstName() {
 		return firstName;
 	}
+	
+	public String getProvider() {
+		return provider;
+	}
 }
