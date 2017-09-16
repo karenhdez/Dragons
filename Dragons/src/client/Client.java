@@ -1,6 +1,7 @@
 package client;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
@@ -15,22 +16,46 @@ public class Client {
 			 BufferedReader in = new BufferedReader(new InputStreamReader(sock.getInputStream()));
 			 BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))//Reads user input
 			 ) {
+			DisplayMenus display = new DisplayMenus();
+			GetMenuOptions optionInput = new GetMenuOptions();
+			GetUserInput userInput = new GetUserInput();
+			DisplayRequestedInfo requested = new DisplayRequestedInfo();
+			
 			while(true) {
-				displayMenu();
-				String option = getUserOption(stdIn);
-				out.println(option);
-				if(option.equals("N") || option.equals("n")) {
-					getUserInfo(stdIn, out);
+				display.StartMenu();
+				String startOption = optionInput.StartMenuOption(stdIn);
+				out.println(startOption);
+				if (startOption.equals("L") || startOption.equals("l")) {
+					userInput.LoginInfo(in, out);
+					while(true) {
+						display.MainMenu();
+						String mainMenuOption = optionInput.MainMenuOption(stdIn);
+						out.println(mainMenuOption);
+						if(mainMenuOption.equals("N") || mainMenuOption.equals("n")) {
+							userInput.PersonalInfo(stdIn, out);
+						}
+						else if(mainMenuOption.equals("G") || mainMenuOption.equals("g")) {
+							display.GetInfoMenu();
+							String getInfoMenuOption = optionInput.GetInfoMenuOption(stdIn);
+							out.println(getInfoMenuOption);
+							if (getInfoMenuOption.equals("1")) {
+								userInput.requestRecordByPatientName(stdIn, out);
+								requested.RecordByPatientName(in);
+							}
+							else if (getInfoMenuOption.equals("2")) {
+								userInput.requestRecordByProvider(stdIn, out);
+								requested.RecordByProvider(in);
+							}
+							else if (getInfoMenuOption.equals("B") || getInfoMenuOption.equals("b")) {
+								continue;
+							}
+						}
+						else if(mainMenuOption.equals("L") || mainMenuOption.equals("l")) {
+							break;
+						}
+					}
 				}
-				else if(option.equals("G") || option.equals("g")) {
-					requestList(stdIn, out);
-					String info = in.readLine();
-					System.out.println("===================================");
-					System.out.println("Received: " + info);
-					System.out.println("===================================");
-					System.out.println();
-				}
-				else if(option.equals("Q") || option.equals("q")) {
+				else if (startOption.equals("Q") || startOption.equals("q")) {
 					stdIn.close();
 					in.close();
 					out.close();
@@ -39,78 +64,5 @@ public class Client {
 				}
 			}
 		}		
-	}
-	
-	private static void displayMenu() {
-		System.out.println("===================================");
-		System.out.println("Please Enter an Option:");
-		System.out.println("(N) - New User");
-		System.out.println("(G) - Getting Info");
-		System.out.println("(Q) - Quit");
-		System.out.println("===================================");
-	}
-	
-	private static String getUserOption(BufferedReader stdIn) throws IOException {
-		String option;
-		do {
-			System.out.println("Option:");
-			option = stdIn.readLine();
-		} while (!option.equals("N") && !option.equals("n") && 
-				 !option.equals("G") && !option.equals("g") &&
-				 !option.equals("Q") && !option.equals("q"));
-		return option;
-	}
-	
-	private static void getUserInfo(BufferedReader stdIn, PrintWriter out) throws IOException {
-		getUserFirstName(stdIn, out);
-		getUserLastName(stdIn, out);
-		getUserSSN(stdIn, out);
-		getUserProvider(stdIn, out);
-	}
-	
-	private static void getUserFirstName(BufferedReader stdIn, PrintWriter out) throws IOException {
-		String firstName;
-		do {
-			System.out.println("Enter your first name:");
-			firstName = stdIn.readLine();
-		} while (firstName.length() == 0);	
-		out.println(firstName);
-	}
-	
-	private static void getUserLastName(BufferedReader stdIn, PrintWriter out) throws IOException {
-		String lastName;
-		do {
-			System.out.println("Enter your last name:");
-			lastName = stdIn.readLine();
-		} while (lastName.length() == 0);
-		out.println(lastName);
-	}
-	
-	private static void getUserSSN(BufferedReader stdIn, PrintWriter out) throws IOException {
-		String ssn;
-		do {
-			System.out.println("Enter your social security number:");
-			ssn = stdIn.readLine();
-		} while (ssn.length() == 0);
-		out.println(ssn);
-	}
-	
-	private static void getUserProvider(BufferedReader stdIn, PrintWriter out) throws IOException {
-		String provider;
-		do {
-			System.out.println("Enter your medical provider:");
-			provider = stdIn.readLine();
-		} while (provider.length() == 0);
-		out.println(provider);
-		System.out.println();
-	}
-	
-	private static void requestList(BufferedReader stdIn, PrintWriter out) throws IOException {
-		String name;
-		do {
-			System.out.println("Enter your name:");
-			name = stdIn.readLine();
-		} while(name.length() == 0);
-		out.println(name);
 	}
 }
