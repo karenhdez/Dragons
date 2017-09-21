@@ -1,141 +1,101 @@
-package blockchain;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.sql.Timestamp;
 
-public class Record {
-		
-	public String firstName;
-	public String lastName;
-	public int SSN;
-	public String provider;
-	public int blockID;
-	public String SHA256String;
-	public String signedSHA256;
-	public int verificationProcessID;
-	//public String timeStamp;
-	public Timestamp timestamp;
-	
-	public Record next;
-	
-	public Record(String f, String l, int ssn, String p) {
-		this.firstName = f;
-		this.lastName = l;
-		this.SSN = ssn;
-		this.provider = p;
-		this.blockID = this.generateBlockID();
-		this.SHA256String = this.generateSHA256();
-		this.signedSHA256 = this.generateSignedSHA256();
-		this.verificationProcessID = this.generateProcessId();
-		//String time = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-		this.timestamp = new Timestamp(System.currentTimeMillis());
-	}
-	
-	//Temporary: for now generates random string
-	public String generateSHA256() {
-		String sHA256 = "WELKFRLEA";
-		return sHA256;
-		
-	}
-	
-	//Temporary: for now generates random id
-	//TODO: This can be fixed now
-	public int generateBlockID() {
-		return 1;
-		
-	}
-	
-	//Temporary: for now generates a random string representation of the signed SHA256
-	public String generateSignedSHA256(){
-		String signedSHA256 = "LKEFALEKFALEK";
-		return signedSHA256;
-	}
-	
-	//Setters
-	public void setFirstName(String fName) {
-		this.firstName = fName;
-	}
-	
-	public void setLastName(String lName) {
-		this.lastName = lName;
-	}
-	
-	public void setSSN(int ssn) {
-		this.SSN = ssn;
-	}
-		
-	public void setSignedSHA256(String signedSHA) {
-		this.signedSHA256 = signedSHA;
-	}
-	
-	public void setBlockId(int bID) {
-		this.blockID = bID;
-	}
-	
-	public void setVerificationProcessID(int vpID) {
-		this.verificationProcessID = vpID;
-	}
-	
-	public void setSHA256String(String shaString) {
-		this.SHA256String = shaString;
-	}
-	
-	//Getters 	
-	public String getLastName() {
-		return this.lastName;
-	}
-	
-	public int getSSN() {
-		return this.SSN;
-	}
-	
-	public String getSignedSHA256() {
-		return this.signedSHA256;
-	}
-	
-	public int getBlockId() {
-		return this.blockID;
-	}
-	
-	public int getVerificationProcessID() {
-		return this.verificationProcessID;
-	}
-	
-	public String getSHA256String() {
-		return this.SHA256String;
-	}
 
-	//TODO: check how process Id is selected and used
-	public int generateProcessId() {
-		return 2;
-	}
-	
-	//TODO: Add more attributes to return
-	public String toString(){
-		return "Name: " + this.firstName + " " + this.lastName + " Provider: " + this.provider + " Time: " + this.timestamp;
-	}
-	
-	public Record getNext() {
-		return next;
-	}
-	
-	public String getFirstName() {
-		return firstName;
-	}
-	
-	public String getLastName() {
-		return lastName;
-	}
-	
-	public String getProvider() {
-		return provider;
-	}
-	
-	public Timestamp getTimestamp() {
-		return timestamp;
-	}
-	
-	public void setTimestamp(Timestamp ts) {
-		this.timestamp = ts;
-	}
-}
+from System import *
+from System.Collections.Generic import *
+from System.Collections import *
+from System.sql.Timestamp import *
+from System.text.SimpleDateFormat import *
+
+class Record:
+
+	def __init__(self, f, l, ssn, p):
+        self._next = None
+
+		self._firstName = f
+		self._lastName = l
+		self._SSN = ssn
+		self._provider = p
+		self._blockID = self.generateBlockID()
+		self._SHA256String = self.generateSHA256()
+		self._signedSHA256 = self.generateSignedSHA256()
+		self._verificationProcessID = self.generateProcessId()
+		self._timestamp = Timestamp(System.currentTimeMillis())
+
+    # Temporary: for now generates random string
+    def generateSHA256(self):
+        sHA256 = "WELKFRLEA"
+        return sHA256
+
+    # Temporary: for now generates random id
+    # TODO: This can be fixed now
+    def generateBlockID(self):
+        return 1
+
+    # Temporary: for now generates a random string representation of the signed SHA256
+    def generateSignedSHA256(self):
+        signedSHA256 = "LKEFALEKFALEK"
+        return signedSHA256
+
+    # Setters
+    def setFirstName(self, fName):
+        self._firstName = fName
+
+    def setLastName(self, lName):
+        self._lastName = lName
+
+    def setSSN(self, ssn):
+        self._SSN = ssn
+
+    def setSignedSHA256(self, signedSHA):
+        self._signedSHA256 = signedSHA
+
+    def setBlockId(self, bID):
+        self._blockID = bID
+
+    def setVerificationProcessID(self, vpID):
+        self._verificationProcessID = vpID
+
+    def setSHA256String(self, shaString):
+        self._SHA256String = shaString
+
+    #Getters
+	def getSSN(self):
+		return self._SSN
+
+	def getSignedSHA256(self):
+		return self._signedSHA256
+
+    def getBlockId(self):
+		return self._blockID
+
+	def getVerificationProcessID(self):
+		return self._verificationProcessID
+
+	def getSHA256String(self):
+		return self._SHA256String
+
+    #TODO: check how process Id is selected and used
+	def generateProcessId(self):
+		return 2
+
+	#TODO: Add more attributes to return
+	def toString(self):
+		return "Name: " + self._firstName + " " + self._lastName + " Provider: " + self.provider + " Time: " + self.timestamp
+
+    def getNext(self):
+        return self._next
+
+    def getFirstName(self):
+        return self._firstName
+
+    def getLastName(self):
+        return self._lastName
+
+    def getProvider(self):
+        return self._provider
+
+    def getTimestamp(self):
+        return self._timestamp
+
+    def setTimestamp(self, ts):
+        self._timestamp = ts
