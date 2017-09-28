@@ -1,4 +1,6 @@
 import datetime
+from ..Person import Doctor
+from ..Person import Patient
 
 
 class Record:
