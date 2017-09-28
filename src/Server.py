@@ -1,6 +1,8 @@
 import socket
-from Record import *
-from Blockchain import *
+
+from src.Record import *
+
+from src.Blockchain.Blockchain import *
 
 
 class Server:
