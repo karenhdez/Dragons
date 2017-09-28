@@ -1,6 +1,8 @@
 import threading
-from Client import *
+
 from Server import *
+
+from src.IO.Client import *
 
 
 def main():
