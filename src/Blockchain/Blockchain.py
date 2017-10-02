@@ -1,27 +1,48 @@
-from LinkedList import *
-import jwt
+from Block import *
 
 
-class Blockchain:
+class Blockchain(object):
 
     def __init__(self):
 
-        self._list = LinkedList()
+        self.__first = None
+        self.__size = 0
+
+
+    @property
+    def size(self):
+        return self.__size
+
+    @size.setter
+    def size(self, val):
+        pass
 
 
     def addBlock(self, r):
 
-        self._list.add(r)
+        new = Block(r)
+
+        if self.__first == None:
+            self.__first = new
+        else:
+            self.__first.next = new
+
+        self.__size += 1
+
+
+    def getBlock(self, i):
+
+        n = self.__first
+        while not n == None:
+            if i > 0:
+                n = n.next
+                i -= 1
+            else:
+                return n.data
 
 
     # TODO
     def checkBlockExists(self):
-
-        return
-
-
-    # TODO
-    def getBlock(self):
 
         return
 
@@ -34,15 +55,14 @@ class Blockchain:
 
     def getRecordsByPatient(self, firstName, lastName):
 
-        l = self._list
-        results = LinkedList()
+        results = Blockchain()
 
         i = 0
-        n = l.get(i)
-        s = l.size()
+        n = self.getBlock(i)
+        s = self.size()
         while i < s:
             if n.getFirstName() == firstName and n.getLastName() == lastName:
-                results.add(n)
+                results.addBlock(n)
             i += 1
 
         return results
@@ -50,15 +70,14 @@ class Blockchain:
 
     def getRecordsBySSN(self, SSN):
 
-        l = self._list
-        results = LinkedList()
+        results = Blockchain()
 
         i = 0
-        n = l.get(i)
-        s = l.size()
+        n = self.getBlock(i)
+        s = self.size()
         while i < s:
             if n.getSSN() == SSN:
-                results.add(n)
+                results.addBlock(n)
             i += 1
 
         return results
@@ -66,15 +85,14 @@ class Blockchain:
 
     def getRecordsByProvider(self, provider):
 
-        l = self._list
-        results = LinkedList()
+        results = Blockchain()
 
         i = 0
-        n = l.get(i)
-        s = l.size()
+        n = self.getBlock(i)
+        s = self.size()
         while i < s:
             if n.getProvider() == provider:
-                results.add(n)
+                results.addBlock(n)
             i += 1
 
         return results
@@ -82,15 +100,14 @@ class Blockchain:
 
     def getRecordsWindow(self, start, end):
 
-        l = self._list
-        results = LinkedList()
+        results = Blockchain()
 
         i = 0
-        n = l.get(i)
-        s = l.size()
+        n = self.getBlock(i)
+        s = self.getSize()
         while i < s:
             if n.getTimestamp() == start and n.getTimestamp() == end:
-                results.add(n)
+                results.addBlock(n)
             i += 1
 
         return results
@@ -105,4 +122,4 @@ class Blockchain:
     def printList(self):
 
         print("Records: ")
-        print(self._list)
+        #print(self._list)

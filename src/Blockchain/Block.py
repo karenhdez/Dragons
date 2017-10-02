@@ -1,107 +1,137 @@
 from Record import *
+import hashlib
+import rsa
 
 
-class Block:
+class Block(object):
 
-    def __init__(self):
+    def __init__(self, data, next):
 
-        self.data = None
-        self.blockID = self.generateBlockID()
-        self.SHA256 = self.generateSHA256()
-        self.verified = False
+        self.__data = data
+        self.__next = next
+
+        self.__blockID = self.generateBlockID()
+        self.__SHA256 = self.generateSHA256()
+
+        #verification
+        self.__processID = self.generateProcessId()
+
+        self.__signedSHA256 = ""
+        self.__timestamp = ""
+
+        self.__pubkey = ""
+        self.__privkey = ""
+
+        self.__verified = False
 
 
-    # Temporary: for now generates random string
-    def generateSHA256(self):
+    # Getters
+    @property
+    def data(self):
+        return self.__data
 
-        sHA256 = "WELKFRLEA"
-        return sHA256
+    @property
+    def next(self):
+        return self.__next
+
+    @property
+    def blockID(self):
+        return self.__blockID
+
+    @property
+    def SHA256(self):
+        return self.__SHA256
+
+    @property
+    def processID(self):
+        return self.__processID
+
+    @property
+    def signedSHA256(self):
+        return self.__signedSHA256
+
+    @property
+    def timestamp(self):
+        return self.__timestamp
+
+    @property
+    def pubkey(self):
+        return self.__pubkey
+
+    @property
+    def privkey(self):
+        return self.__privkey
+
+    @property
+    def verified(self):
+        return self.__verified
 
 
-    # Temporary: for now generates random id
-    # TODO: This can be fixed now
+    # Setters
+    @data.setter
+    def data(self, val):
+        pass
+
+    @next.setter
+    def next(self, val):
+        pass
+
+    @blockID.setter
+    def blockID(self, val):
+        pass
+
+    @SHA256.setter
+    def SHA256(self, val):
+        pass
+
+    @processID.setter
+    def processID(self, val):
+        pass
+
+    @signedSHA256.setter
+    def signedSHA256(self, val):
+        pass
+
+    @timestamp.setter
+    def timestamp(self, val):
+        pass
+
+    @pubkey.setter
+    def pubkey(self, val):
+        pass
+
+    @privkey.setter
+    def privkey(self, val):
+        pass
+
+    @verified.setter
+    def verified(self, val):
+        pass
+
+
+    def generateSHA256(self, h_last):
+
+        s = h_last + self.data.toString()
+        h_full = hashlib.sha256(s).hexdigest()
+
+        return h_full
+
+
     def generateBlockID(self):
 
-        return 1
+        return 0
 
 
+    def signSHA256(self):
 
-class VerifiedBlock(Block):
+        hash = self.SHA256.encode('utf8')
 
-    def __init__(self):
+        (self.pubkey, self.privkey) = rsa.newkeys(512)
+        signedSHA = rsa.encrypt(hash, self.pubkey)
 
-        super(self.__class__, self).__init__()
-
-        self.blockID = None
-        self.processID = self.generateProcessId()
-        self.signedSHA256 = ""
-        self.timestamp = None
-        self.verified = True
+        self.signedSHA256 = signedSHA
 
 
-    def setSignedSHA256(self, signedSHA):
-
-        self._signedSHA256 = signedSHA
-
-
-    def setBlockId(self, bID):
-
-        self.blockID = bID
-
-
-    def setVerificationProcessID(self, vpID):
-
-        self.verificationProcessID = vpID
-
-
-    def setSHA256String(self, shaString):
-
-        self.SHA256String = shaString
-
-
-    # Temporary: for now generates a random string representation of the signed SHA256
-    def generateSignedSHA256(self):
-
-        signedSHA256 = "LKEFALEKFALEK"
-        return signedSHA256
-
-
-    # TODO: check how process Id is selected and used
     def generateProcessId(self):
 
-        return 2
-
-
-    def getSignedSHA256(self):
-
-        return self._signedSHA256
-
-
-    def getBlockId(self):
-
-        return self._blockID
-
-
-    def getVerificationProcessID(self):
-
-        return self._verificationProcessID
-
-
-    def getSHA256String(self):
-
-        return self._SHA256String
-
-
-    def getNext(self):
-
-        return self._next
-
-
-
-class UnverifiedBlock(Block):
-
-    def __init__(self):
-
-        super(self.__class__, self).__init__()
-
-        self.verified = False
+        return 0
