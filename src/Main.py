@@ -1,15 +1,20 @@
 import threading
-from Client import *
-from Server import *
 
+#from IO.Server import *
+#from IO.Client import *
+from Blockchain.Block import *
 
 def main():
 
-    s = Server()
-    threading.Thread(target=s.main).start()
+    r = Record('a', 'b', 1, 'c')
+    b = Block(hashlib.sha224("asdf").hexdigest(), r)
+    print(b.SHA256)
 
-    c = Client()
-    threading.Thread(target=c.main).start()
+    # s = Server()
+    # threading.Thread(target=s.main).start()
+    #
+    # c = Client()
+    # threading.Thread(target=c.main).start()
 
 
 main()

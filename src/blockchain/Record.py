@@ -1,101 +1,61 @@
+import datetime
 
 
-from System import *
-from System.Collections.Generic import *
-from System.Collections import *
-from System.sql.Timestamp import *
-from System.text.SimpleDateFormat import *
+class Record(object):
 
-class Record:
+    def __init__(self, f, l, ssn, p):
 
-	def __init__(self, f, l, ssn, p):
-        self._next = None
+        self.__firstName = f
+        self.__lastName = l
+        self.__SSN = ssn
+        self.__provider = p
+        self.__timestamp = str(datetime.datetime.now()).split('.')[0]
 
-		self._firstName = f
-		self._lastName = l
-		self._SSN = ssn
-		self._provider = p
-		self._blockID = self.generateBlockID()
-		self._SHA256String = self.generateSHA256()
-		self._signedSHA256 = self.generateSignedSHA256()
-		self._verificationProcessID = self.generateProcessId()
-		self._timestamp = Timestamp(System.currentTimeMillis())
 
-    # Temporary: for now generates random string
-    def generateSHA256(self):
-        sHA256 = "WELKFRLEA"
-        return sHA256
+    # Getters
+    @property
+    def firstName(self):
+        return self.__firstName
 
-    # Temporary: for now generates random id
-    # TODO: This can be fixed now
-    def generateBlockID(self):
-        return 1
+    @property
+    def lastName(self):
+        return self.__lastName
 
-    # Temporary: for now generates a random string representation of the signed SHA256
-    def generateSignedSHA256(self):
-        signedSHA256 = "LKEFALEKFALEK"
-        return signedSHA256
+    @property
+    def SSN(self):
+        return self.__SSN
+
+    @property
+    def provider(self):
+        return self.__provider
+
+    @property
+    def timestamp(self):
+        return self.__timestamp
 
     # Setters
-    def setFirstName(self, fName):
-        self._firstName = fName
+    @firstName.setter
+    def firstName(self, val):
+        pass
 
-    def setLastName(self, lName):
-        self._lastName = lName
+    @lastName.setter
+    def lastName(self, val):
+        pass
 
-    def setSSN(self, ssn):
-        self._SSN = ssn
+    @SSN.setter
+    def SSN(self, val):
+        pass
 
-    def setSignedSHA256(self, signedSHA):
-        self._signedSHA256 = signedSHA
+    @provider.setter
+    def provider(self, val):
+        pass
 
-    def setBlockId(self, bID):
-        self._blockID = bID
+    @timestamp.setter
+    def timestamp(self, val):
+        pass
 
-    def setVerificationProcessID(self, vpID):
-        self._verificationProcessID = vpID
 
-    def setSHA256String(self, shaString):
-        self._SHA256String = shaString
+    # TODO: Add more attributes to return
+    def toString(self):
 
-    #Getters
-	def getSSN(self):
-		return self._SSN
-
-	def getSignedSHA256(self):
-		return self._signedSHA256
-
-    def getBlockId(self):
-		return self._blockID
-
-	def getVerificationProcessID(self):
-		return self._verificationProcessID
-
-	def getSHA256String(self):
-		return self._SHA256String
-
-    #TODO: check how process Id is selected and used
-	def generateProcessId(self):
-		return 2
-
-	#TODO: Add more attributes to return
-	def toString(self):
-		return "Name: " + self._firstName + " " + self._lastName + " Provider: " + self.provider + " Time: " + self.timestamp
-
-    def getNext(self):
-        return self._next
-
-    def getFirstName(self):
-        return self._firstName
-
-    def getLastName(self):
-        return self._lastName
-
-    def getProvider(self):
-        return self._provider
-
-    def getTimestamp(self):
-        return self._timestamp
-
-    def setTimestamp(self, ts):
-        self._timestamp = ts
+        return self.__firstName + self.__lastName + str(self.__SSN) + self.__provider + self.__timestamp
