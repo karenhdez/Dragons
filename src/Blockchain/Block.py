@@ -41,11 +41,21 @@ class Block(object):
     def SHA256(self, val):
         pass
 
+    def generateSHA256(self):
+        #This is blocks personal sha256
+        s = self.__data.toString()
+        encode = s.encode()
+        sha = hashlib.sha256(encode)
+        hash = sha.hexdigest()
 
-    def generateSHA256(self, h_last):
+        return hash
 
-        s = h_last + self.__data.toString()
-        h_full = hashlib.sha256(s).hexdigest()
+    def generateConcatenatedSHA256(self, h_last):
+        #This is the sha256 of previous hash and current data
+        s = str(h_last) + self.__data.toString()
+        encode = s.encode()
+        sha = hashlib.sha256(encode)
+        h_full = sha.hexdigest()
 
         return h_full
 

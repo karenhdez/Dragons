@@ -51,7 +51,7 @@ class Handler:
                 solution = reader.read()
                 if solution != None:
                     solved = True
-                    print("Process " + str(p[0]) + " found " + solution)
+                    print("Process " + str(p[0]) + " found " + str(solution))
                     break
 
 
