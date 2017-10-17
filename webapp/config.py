@@ -12,3 +12,6 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'database.db')
 
 
 SECRET_KEY = 'thisisasecret'
+
+#keep track of when models change
+SQLALCHEMY_TRACK_MODIFICATIONS = False 
