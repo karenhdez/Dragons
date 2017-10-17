@@ -11,10 +11,12 @@ class Blockchain(object):
 
     @property
     def size(self):
+
         return self.__size
 
     @size.setter
     def size(self, val):
+
         pass
 
 

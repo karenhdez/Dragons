@@ -1,38 +1,23 @@
 from Record import *
 import hashlib
 import rsa
+import jwt
 
 
 class Block(object):
 
-    def __init__(self, data, next):
+    def __init__(self, data):
 
         self.__data = data
-        self.__next = next
 
         self.__blockID = self.generateBlockID()
         self.__SHA256 = self.generateSHA256()
-
-        #verification
-        self.__processID = self.generateProcessId()
-
-        self.__signedSHA256 = ""
-        self.__timestamp = ""
-
-        self.__pubkey = ""
-        self.__privkey = ""
-
-        self.__verified = False
 
 
     # Getters
     @property
     def data(self):
         return self.__data
-
-    @property
-    def next(self):
-        return self.__next
 
     @property
     def blockID(self):
@@ -42,6 +27,70 @@ class Block(object):
     def SHA256(self):
         return self.__SHA256
 
+
+    # Setters
+    @data.setter
+    def data(self, val):
+        pass
+
+    @blockID.setter
+    def blockID(self, val):
+        pass
+
+    @SHA256.setter
+    def SHA256(self, val):
+        pass
+
+
+    def generateSHA256(self, h_last):
+
+        s = h_last + self.__data.toString()
+        h_full = hashlib.sha256(s).hexdigest()
+
+        return h_full
+
+
+    def generateBlockID(self):
+
+        return 0
+
+
+
+class UnverifiedBlock(object):
+
+    def __init__(self, data):
+
+        self.__verified = False
+
+
+    @property
+    def verified(self):
+        return self.__verified
+
+    @verified.setter
+    def verified(self, val):
+        pass
+
+
+
+class VerifiedBlock(Block):
+
+    def __init__(self, data):
+
+        super(self.__class__, self).__init__(data)
+
+        self.__processID = self.generateProcessId()
+
+        self.__signedSHA256 = ""
+        self.__timestamp = ""
+
+        self.__pubkey = ""
+        self.__privkey = ""
+
+        self.__verified = True
+
+
+    # Getters
     @property
     def processID(self):
         return self.__processID
@@ -68,22 +117,6 @@ class Block(object):
 
 
     # Setters
-    @data.setter
-    def data(self, val):
-        pass
-
-    @next.setter
-    def next(self, val):
-        pass
-
-    @blockID.setter
-    def blockID(self, val):
-        pass
-
-    @SHA256.setter
-    def SHA256(self, val):
-        pass
-
     @processID.setter
     def processID(self, val):
         pass
@@ -109,27 +142,20 @@ class Block(object):
         pass
 
 
-    def generateSHA256(self, h_last):
+    def encodeJWT(self, s):
 
-        s = h_last + self.data.toString()
-        h_full = hashlib.sha256(s).hexdigest()
-
-        return h_full
+        jwt.encode()
+        return jwt.encode(s, 'secret', algorithm='HS256')
 
 
-    def generateBlockID(self):
+    def signSHA256(self, pubkey):
 
-        return 0
+        hash = self.__SHA256.encode('utf8')
 
+        #(self.__pubkey, self.__privkey) = rsa.newkeys(512)
+        signedSHA = rsa.encrypt(hash, pubkey)
 
-    def signSHA256(self):
-
-        hash = self.SHA256.encode('utf8')
-
-        (self.pubkey, self.privkey) = rsa.newkeys(512)
-        signedSHA = rsa.encrypt(hash, self.pubkey)
-
-        self.signedSHA256 = signedSHA
+        self.__signedSHA256 = signedSHA
 
 
     def generateProcessId(self):
