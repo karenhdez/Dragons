@@ -38,6 +38,6 @@ class Block:
         sha.update(str(self.index) +
                    str(self.timestamp) +
                    str(self.data) +
-                   str(self.previous_hash)).encode('utf-8'))
+                   str(self.previous_hash)).encode('utf-8')
 
         return sha.hexdigest()

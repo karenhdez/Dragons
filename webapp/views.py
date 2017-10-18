@@ -1,6 +1,6 @@
 from app import app, db
 from flask import render_template, redirect, url_for, session
-from forms import LoginForm, RegisterForm
+from forms import LoginForm, RegisterForm, AddRecordForm
 from models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -76,6 +76,34 @@ def signup():
 @login_required
 def dashboard():
     return render_template('dashboard.html', name=current_user.username)
+
+@app.route('/search')
+@login_required
+def search():
+    return render_template('search.html', name=current_user.username)
+
+@app.route('/search/ssn')
+def ssn():
+    return 'Search by SSN'
+
+@app.route('/search/timeFrame')
+def timeFrame():
+    return 'Search by Time Frame'
+
+@app.route('/search/provider')
+def provider():
+    return 'Search by Provider'
+
+@app.route('/addRecord', methods=['GET','POST'])
+@login_required
+def addRecord():
+    form = AddRecordForm()
+
+    # Check if the form is submited
+    if form.validate_on_submit():
+        return 'Record Added'
+
+    return render_template('addRecord.html', name=current_user.username, form=form)
 
 
 
