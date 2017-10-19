@@ -73,18 +73,47 @@ def signup():
 def dashboard():
     return render_template('dashboard.html', name=current_user.username)
 
-@app.route('/search')
+@app.route('/search', methods=['GET', 'POST'])
 @login_required
 def search():
-    return render_template('search.html', name=current_user.username)
+    form1 = SearchBySSN()
+    form2 = SearchByTimeFrame()
+    form3 = SearchByProvider()
 
-@app.route('/search2/<selected>')
-def search2(selected=None):
-    if selected == "ssn":
-        type = 'ssn'
-        form = SearchBySSN()
-        return render_template('search.html', form=form, type=type)
-    return render_template('search.html')
+    #Need to fix below so checks each form correctly
+    if form1.is_submitted():
+        if form1.validate():
+            return 'Records with specified ssn'
+        else:
+            return 'Sorry cannot validate'
+    if form2.is_submitted():
+        if form2.validate():
+            return 'Records with time frame'
+        else:
+            return 'Error'
+    if form3.is_submitted():
+        if form3.validate_on_submit():
+            return 'Records with specified provider'
+        else:
+            return 'Error'
+
+    return render_template('search.html', form1=form1, form2=form2, form3=form3)
+
+@app.route('/search/ssn', methods=['GET', 'POST'])
+@login_required
+def searchBySSN():
+    return 'Records with specified ssn'
+
+
+@app.route('/search/time', methods=['GET'])
+@login_required
+def searchByTime():
+    return 'Records with specified time frame'
+
+@app.route('/search/provider', methods=['GET'])
+@login_required
+def searchByProvider():
+    return 'Records with specified health care provider'
 
 @app.route('/addRecord', methods=['GET','POST'])
 @login_required
@@ -100,4 +129,5 @@ def addRecord():
 @app.route('/viewRecords')
 @login_required
 def viewRecords():
-    return render_template('viewRecords.html')
+    viewType = None
+    return render_template('viewRecords.html', viewType=viewType)

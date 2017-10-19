@@ -32,41 +32,25 @@ Main
       </div>
     </div>
 
-    <form id="ssnForm" style="display: none">
-        SSN FORM
-    </form>
-    <form id="timeForm" style="display: none">
-        TIME FORM
-    </form>
-    <form id="providerForm" style="display: none">
-        PROVIDER FORM
-    </form>
-
-    {% if type == "ssn" %}
-    <form class="form-addRecord" method="GET" action="/search2">
+    <form id="ssnForm" style="display: none" class="form-addRecord" method="POST" action="/search">
         <h2 class="form-addRecord-heading">Enter SSN</h2>
-          {{ form.hidden_tag() }}
-          {{ wtf.form_field(form.ssn) }}
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
+        {{ form1.hidden_tag() }}
+        {{ wtf.form_field(form1.ssn) }}
+         <button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
     </form>
-    {% endif %}
-    {% if type == "time" %}
-    <form class="form-addRecord" method="GET" action="/search2">
-        <h2 class="form-addRecord-heading">Enter Time Frame</h2>
-          {{ form.hidden_tag() }}
-          {{ wtf.form_field(form.start_date) }}
-          {{ wtf.form_field(form.end_date) }}
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
+    <form id="timeForm" style="display: none" class="form-addRecord" method="POST" action="/search">
+        <h2 class="form-addRecord-heading">Enter SSN</h2>
+        {{ form2.hidden_tag() }}
+        {{ wtf.form_field(form2.start_date) }}
+        {{ wtf.form_field(form2.end_date) }}
+         <button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
     </form>
-    {% endif %}
-    {% if type == "provider" %}
-    <form class="form-addRecord" method="GET" action="/search2">
-        <h2 class="form-addRecord-heading">Enter Healthcare Provider</h2>
-          {{ form.hidden_tag() }}
-          {{ wtf.form_field(form.provider) }}
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
+    <form id="providerForm" style="display: none" class="form-addRecord" method="POST" action="/search">
+        <h2 class="form-addRecord-heading">Enter SSN</h2>
+        {{ form3.hidden_tag() }}
+        {{ wtf.form_field(form3.provider) }}
+         <button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
     </form>
-    {% endif %}
 
     <script>
         function displayForm(clicked_id) {

@@ -23,8 +23,8 @@ class SearchBySSN(FlaskForm):
     ssn = IntegerField('SSN', validators=[InputRequired(), Length(min=9, max=9)])
 
 class SearchByTimeFrame(FlaskForm):
-    start_date = DateField('Start Date')
-    end_date = DateField('End Date')
+    start_date = DateField('Start Date', validators=[InputRequired()])
+    end_date = DateField('End Date', validators=[InputRequired()])
 
 class SearchByProvider(FlaskForm):
     provider = StringField('Healthcare Provider', validators=[InputRequired(), Length(max=50)])
