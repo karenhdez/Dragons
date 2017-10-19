@@ -1,7 +1,7 @@
 {% extends "bootstrap/base.html" %}
 
 {% block title %}
-Demo App
+RedMec Demo App
 {% endblock %}
 
 {% block styles %}
@@ -10,14 +10,16 @@ Demo App
 {% endblock %}
 
 {% block content %}
-    {% include 'includes/_home_navbar.html' %}
+{% include 'includes/_home_navbar.html' %}
 
-    <div class="container">
-
-      <div class="starter-template">
-        <h1>Bootstrap starter template</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
-      </div>
-
-    </div><!-- /.container -->
+<div class="container">
+    <div class="starter-template">
+        <h1>RedMec</h1><br>
+          <img src="https://cdn.pixabay.com/photo/2016/06/24/02/35/ehr-1476525_1280.png" class="img-fluid img-round" width="462" height="357" alt="Responsive image">
+        <p class="lead">Our mission is to build a secure way to store and access medical records. <br>
+            We are using advance blockchain technology to manage records without worrying about any unwanted access, changes, or deletion. <br>
+        </p>
+          <a class="btn btn-primary btn-lg" href="/signup" role="button">Sign Up</a>
+    </div>
+</div><!-- /.container -->
 {% endblock %}

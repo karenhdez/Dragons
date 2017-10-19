@@ -1,11 +1,9 @@
 from app import app, db
-from flask import render_template, redirect, url_for, session
-from forms import LoginForm, RegisterForm, AddRecordForm
+from flask import render_template, redirect, url_for, flash, session
+from forms import LoginForm, RegisterForm, AddRecordForm, SearchBySSN, SearchByTimeFrame, SearchByProvider
 from models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-
-
 
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -34,10 +32,9 @@ def login():
             if check_password_hash(user.password, form.password.data):
                 login_user(user, remember=form.remember.data)
                 return redirect(url_for('dashboard'))
-        
-        return '<h1>Invalid username or password</h1>'
-        #return '<p>{}</p><p>{}</p>'.format(form.username.data, 
-        #                                   form.password.data)
+            else:
+                flash('Incorrect Login Credentials')
+                #return redirect(url_for('login'))
 
     return render_template('login.html', form=form)
 
@@ -69,7 +66,6 @@ def signup():
         return '<h1>New user has been created!</h>'
         #return '<p>{}</p><p>{}</p><p>{}</p><h1>'.format(form.email.data, form.username.data, form.password.data)
 
-
     return render_template('signup.html', form=form)
 
 @app.route('/dashboard')
@@ -82,17 +78,13 @@ def dashboard():
 def search():
     return render_template('search.html', name=current_user.username)
 
-@app.route('/search/ssn')
-def ssn():
-    return 'Search by SSN'
-
-@app.route('/search/timeFrame')
-def timeFrame():
-    return 'Search by Time Frame'
-
-@app.route('/search/provider')
-def provider():
-    return 'Search by Provider'
+@app.route('/search2/<selected>')
+def search2(selected=None):
+    if selected == "ssn":
+        type = 'ssn'
+        form = SearchBySSN()
+        return render_template('search.html', form=form, type=type)
+    return render_template('search.html')
 
 @app.route('/addRecord', methods=['GET','POST'])
 @login_required
@@ -105,5 +97,7 @@ def addRecord():
 
     return render_template('addRecord.html', name=current_user.username, form=form)
 
-
-
+@app.route('/viewRecords')
+@login_required
+def viewRecords():
+    return render_template('viewRecords.html')

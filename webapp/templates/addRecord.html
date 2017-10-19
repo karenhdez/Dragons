@@ -11,19 +11,19 @@ Add Record
 {% endblock %}
 
 {% block content %}
-  <!--{% include 'includes/_home_navbar.html' %}-->
-<div class="container">
-
-      <form class="form-addRecord" method="POST" action="/addRecord">
-        <h2 class="form-addRecord-heading">Enter New Record</h2>
-        {{ form.hidden_tag() }}
-        {{ wtf.form_field(form.first_name) }}
-        {{ wtf.form_field(form.last_name) }}
-        {{ wtf.form_field(form.ssn) }}
-        {{ wtf.form_field(form.provider) }}
-        {{ wtf.form_field(form.reason) }}
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Add Record</button>
-      </form>
-
-</div> <!-- /container -->
+{% include 'includes/_dashboard_navbar.html' %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <div class="container">
+        <form class="form-addRecord" method="POST" action="/addRecord">
+            <h2 class="form-addRecord-heading">Enter New Record</h2>
+            {{ form.hidden_tag() }}
+            {{ wtf.form_field(form.first_name) }}
+            {{ wtf.form_field(form.last_name) }}
+            {{ wtf.form_field(form.ssn) }}
+            {{ wtf.form_field(form.provider) }}
+            {{ wtf.form_field(form.reason) }}
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Add Record</button>
+        </form>
+    </div> <!-- /container -->
+</div>
 {% endblock %}

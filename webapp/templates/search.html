@@ -1,4 +1,5 @@
 {% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
 
 {% block title %}
 Main
@@ -10,26 +11,79 @@ Main
 {% endblock %}
 
 {% block content %}
+{% include 'includes/_dashboard_navbar.html' %}
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-          <h1 class="page-header">Search Records</h1>
+  <h2 class="page-header">Search Records</h2>
+    <div class="row placeholders">
+      <div class="col-xs-6 col-sm-3 placeholder">
+        <img id="ssn" onclick="displayForm(this.id)" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+        <h4>Search by SSN</h4>
+        <span class="text-muted"></span>
+      </div>
+      <div class="col-xs-6 col-sm-3 placeholder">
+        <img id="time" onclick="displayForm(this.id)" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+        <h4>Search by Time Frame</h4>
+        <span class="text-muted"></span>
+      </div>
+      <div class="col-xs-6 col-sm-3 placeholder">
+        <img id="provider" onclick="displayForm(this.id)" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+        <h4>Search by Health care Provider</h4>
+        <span class="text-muted"></span>
+      </div>
+    </div>
 
-          <div class="row placeholders">
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4><a href="/search/ssn">Search by SSN</a></h4>
-              <span class="text-muted"></span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4><a href="/search/timeFrame">Search by Time Frame</a></h4>
-              <span class="text-muted"></span>
-            </div>
-            <div class="col-xs-6 col-sm-3 placeholder">
-              <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
-              <h4><a href="/search/provider">Search by Provider</a></h4>
-              <span class="text-muted"></span>
-            </div>
-          </div>
+    <form id="ssnForm" style="display: none">
+        SSN FORM
+    </form>
+    <form id="timeForm" style="display: none">
+        TIME FORM
+    </form>
+    <form id="providerForm" style="display: none">
+        PROVIDER FORM
+    </form>
+
+    {% if type == "ssn" %}
+    <form class="form-addRecord" method="GET" action="/search2">
+        <h2 class="form-addRecord-heading">Enter SSN</h2>
+          {{ form.hidden_tag() }}
+          {{ wtf.form_field(form.ssn) }}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
+    </form>
+    {% endif %}
+    {% if type == "time" %}
+    <form class="form-addRecord" method="GET" action="/search2">
+        <h2 class="form-addRecord-heading">Enter Time Frame</h2>
+          {{ form.hidden_tag() }}
+          {{ wtf.form_field(form.start_date) }}
+          {{ wtf.form_field(form.end_date) }}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
+    </form>
+    {% endif %}
+    {% if type == "provider" %}
+    <form class="form-addRecord" method="GET" action="/search2">
+        <h2 class="form-addRecord-heading">Enter Healthcare Provider</h2>
+          {{ form.hidden_tag() }}
+          {{ wtf.form_field(form.provider) }}
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
+    </form>
+    {% endif %}
+
+    <script>
+        function displayForm(clicked_id) {
+            if(clicked_id == 'ssn') {
+                document.getElementById("ssnForm").style.display = "block";
+                document.getElementById("timeForm").style.display = "none";
+                document.getElementById("providerForm").style.display = "none";
+            } else if(clicked_id == 'time') {
+                document.getElementById("timeForm").style.display = "block";
+                document.getElementById("ssnForm").style.display = "none";
+                document.getElementById("providerForm").style.display = "none";
+            } else if(clicked_id == 'provider') {
+                document.getElementById("providerForm").style.display = "block";
+                document.getElementById("ssnForm").style.display = "none";
+                document.getElementById("timeForm").style.display = "none";
+            }
+        }
+    </script>
 </div>
-
 {% endblock %}
