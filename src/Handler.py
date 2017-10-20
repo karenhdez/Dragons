@@ -1,6 +1,7 @@
-import os, io, signal, fcntl
+import os, io, signal
 from Queue import Empty
 from multiprocessing import Process, Queue
+from Blockchain.Blockchain import *
 from Blockchain.Block import *
 from Blockchain.Record import *
 from Verifier import *
@@ -10,7 +11,19 @@ class Handler:
 
     def __init__(self):
 
+        self.__blockchain = Blockchain()
         self.__pList = []
+        self.__finished = False
+
+
+    @property
+    def finished(self):
+        return self.__finished
+
+    # Setters
+    @finished.setter
+    def finished(self, val):
+        pass
 
 
     def verifyAuthorization(self, p):
@@ -23,7 +36,17 @@ class Handler:
         return
 
 
-    def sendUnverifiedBlockToProcesses(self, b, count):
+    def createUnverifiedBlock(self, r):
+
+        return UnverifiedBlock(r)
+
+
+    def sendUnverifiedBlockToProcesses(self, b):
+
+        count = 3
+
+        print()
+        print("Waiting for verification")
 
         for i in range(count):
 
@@ -33,10 +56,13 @@ class Handler:
             p = Process(target=v.main, args=((b,queue),))
             p.start()
 
-            #queue.close()
-            #queue.join_thread()
-
             self.__pList.append((p.pid, queue))
+
+        self.checkForFinishedProcesses()
+
+        print("Ended verification")
+
+        self.killProcesses()
 
 
     def checkForFinishedProcesses(self):
@@ -77,36 +103,24 @@ class Handler:
         return False
 
 
-    def handleNewRecordRequest(self):
+    def handleNewRecordRequest(self, firstName, lastName, ssn, provider):
 
-        return
+        self.__finished = False
 
+        r = Record(firstName, lastName, ssn, provider)
 
-    def handleSearchRequest(self):
+        b = self.createUnverifiedBlock(r)
+        b = self.sendUnverifiedBlockToProcesses(b)
+        self.addVerifiedBlockToBlockchain(b)
 
-        return
-
-
-    def createUnverifiedBlock(self, r):
-
-        return
+        self.__finished = True
 
 
-    def main(self):
+    def handleSearchRequest(self, firstName, lastName, ssn, provider):
 
-        r = Record('a', 'b', 1, 'c')
-        b = UnverifiedBlock(r)
-
-        print("Waiting for verification")
-
-        self.sendUnverifiedBlockToProcesses(b, 3)
-        self.checkForFinishedProcesses()
-
-        print("Ended verification")
-
-        self.killProcesses()
-
-
-
-h = Handler()
-h.main()
+        if not None in (firstName, lastName):
+            return self.__blockchain.getRecordsByPatient(firstName, lastName)
+        elif ssn is not None:
+            return self.__blockchain.getRecordsBySSN(ssn)
+        elif provider is not None:
+            return self.__blockchain.getRecordsByProvider(provider)

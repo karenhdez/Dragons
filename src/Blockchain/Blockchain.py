@@ -1,4 +1,5 @@
-from Block import *
+from .Block import *
+from .LinkedList import LinkedList
 
 
 class Blockchain(object):
@@ -57,14 +58,14 @@ class Blockchain(object):
 
     def getRecordsByPatient(self, firstName, lastName):
 
-        results = Blockchain()
+        results = LinkedList()
 
         i = 0
         n = self.getBlock(i)
-        s = self.size()
+        s = self.__size
         while i < s:
             if n.getFirstName() == firstName and n.getLastName() == lastName:
-                results.addBlock(n)
+                results.add(n)
             i += 1
 
         return results
@@ -72,14 +73,14 @@ class Blockchain(object):
 
     def getRecordsBySSN(self, SSN):
 
-        results = Blockchain()
+        results = LinkedList()
 
         i = 0
         n = self.getBlock(i)
-        s = self.size()
+        s = self.__size
         while i < s:
             if n.getSSN() == SSN:
-                results.addBlock(n)
+                results.add(n)
             i += 1
 
         return results
@@ -91,10 +92,10 @@ class Blockchain(object):
 
         i = 0
         n = self.getBlock(i)
-        s = self.size()
+        s = self.__size
         while i < s:
             if n.getProvider() == provider:
-                results.addBlock(n)
+                results.add(n)
             i += 1
 
         return results
@@ -106,10 +107,10 @@ class Blockchain(object):
 
         i = 0
         n = self.getBlock(i)
-        s = self.getSize()
+        s = self.__size
         while i < s:
             if n.getTimestamp() == start and n.getTimestamp() == end:
-                results.addBlock(n)
+                results.add(n)
             i += 1
 
         return results
