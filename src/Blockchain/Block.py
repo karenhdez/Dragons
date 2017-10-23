@@ -42,7 +42,7 @@ class Block(object):
         pass
 
     def generateSHA256(self):
-        #This is blocks personal sha256
+        #This is blocks own sha256
         s = self.__data.toString()
         encode = s.encode()
         sha = hashlib.sha256(encode)
@@ -51,7 +51,7 @@ class Block(object):
         return hash
 
     def generateConcatenatedSHA256(self, h_last):
-        #This is the sha256 of previous hash and current data
+        #This is the sha256 of previous hash and current
         s = str(h_last) + self.__data.toString()
         encode = s.encode()
         sha = hashlib.sha256(encode)

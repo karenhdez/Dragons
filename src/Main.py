@@ -11,7 +11,7 @@ def main():
     block1 = Block(record1)
     print(block1.SHA256)
 
-    #Return hash of current block and previous block
+    #Return hash of current and previous block
     record2 = Record('d', 'e', 2, 'f')
     block2 = Block(record2)
     print(block2.generateConcatenatedSHA256(block1))
