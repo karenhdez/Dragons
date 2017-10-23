@@ -1,4 +1,4 @@
-from Record import *
+from .Record import *
 import hashlib
 import rsa
 import jwt

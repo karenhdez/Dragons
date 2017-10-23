@@ -1,4 +1,4 @@
-from Person import *
+from .Person import *
 
 
 class Doctor(Person):
@@ -7,14 +7,14 @@ class Doctor(Person):
 
         super(self.__class__, self).__init__(f, l, ssn, dob)
 
-        self.specialty = s
+        self.__specialty = s
 
 
-    def setSpecialty(self, s):
+    @property
+    def specialty(self):
+        return self.__specialty
 
-        self.specialty = s
-
-
-    def getSpecialty(self):
-
-        return self.specialty
+    # Setters
+    @specialty.setter
+    def specialty(self, val):
+        pass

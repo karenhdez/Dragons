@@ -4,108 +4,160 @@ import time
 
 class Client:
 
-    def __init__(self):
+    def __init__(self, port):
 
-        pass
+        self.__menu = self.menuMain
+        self.__port = port
+        self.__sock = None
 
 
-    def displayMenu(self):
+    def inputUserInfo(self, msg, type):
+
+        while True:
+            info = raw_input(msg)
+            try:
+                type(info)
+                if len(info) > 0:
+                    break
+            except ValueError:
+                print("Try again")
+
+        return info
+
+
+    def sendData(self, data=" "):
+
+        self.__sock.sendall(data)
+        data = self.__sock.recv(1024)
+        #print("Received " + data)
+        return data
+
+
+    def menuMain(self):
 
         print("===================================")
-        print("Please Enter an Option:")
+        print("Main Menu")
+        print("Please enter an option:")
         print("(N) - New User")
-        print("(G) - Getting Info")
+        print("(G) - Get Info")
         print("(Q) - Quit")
         print("===================================")
 
+        option = self.inputUserInfo("", str)
+        self.sendData(option)
 
-    def getUserOption(self):
+        if option in ("N", "n"):
 
-        option = ""
+            self.__menu = self.menuAdd
+
+        elif option in ("G", "g"):
+
+            self.__menu = self.menuGet
+
+        elif option in ("Q", "q"):
+
+            self.__sock.close()
+            return False
+
+        return True
+
+
+    def menuAdd(self):
+
+        print("===================================")
+        print("Add record module")
+        print("(Q) - Quit")
+        print("===================================")
+
+        for msg in (
+                ("Enter your first name:", str),
+                ("Enter your last name:", str),
+                ("Enter your social security number:", int),
+                ("Enter your medical provider:", str)):
+
+            info = self.inputUserInfo(msg[0], msg[1])
+            self.sendData(info)
+
+            if info in ("Q", "q"):
+
+                self.__menu = self.menuMain
+                return True
+
+        print(self.sendData())
+        print("Record added")
+
+        self.__menu = self.menuMain
+
+        return True
+
+
+    def menuGet(self):
+
+        print("===================================")
+        print("Record Retrieval Module")
+        print("Please enter an option:")
+        print("(1) - Search by Name")
+        print("(2) - Search by Social Security Number")
+        print("(3) - Search by Provider")
+        print("(Q) - Quit")
+        print("===================================")
+
+        record = None
+
         while True:
-            option = raw_input("Option:")
-            if option in ("N", "n", "Q", "q"):
-                break
 
-        return option
+            option = self.inputUserInfo("", str)
 
+            try:
+                if option in ("Q", "q"):
 
-    def getUserFirstName(self):
+                    self.sendData(option)
+                    self.__menu = self.menuMain
+                    return True
 
-        firstName = ""
-        while True:
-            firstName = raw_input("Enter your first name:")
-            if len(firstName) > 0:
-                break
+                elif int(option) == 1:
 
-        return firstName
+                    self.sendData(option)
+                    firstName = self.inputUserInfo("Enter first name:", str)
+                    self.sendData(firstName)
+                    lastName = self.inputUserInfo("Enter last name:", str)
+                    self.sendData(lastName)
+                    break
 
+                elif int(option) == 2:
 
-    def getUserLastName(self):
+                    self.sendData(option)
+                    info = self.inputUserInfo("Enter social security number:", int)
+                    self.sendData(info)
+                    break
 
-        lastName = ""
-        while True:
-            lastName = raw_input("Enter your last name:")
-            if len(lastName) != 0:
-                break
+                elif int(option) == 3:
 
-        return lastName
+                    self.sendData(option)
+                    info = self.inputUserInfo("Enter provider:", str)
+                    self.sendData(info)
+                    break
 
+                print("Invalid option")
 
-    def getUserSSN(self):
+            except ValueError:
+                print("Invalid option")
 
-        ssn = ""
-        while True:
-            ssn = raw_input("Enter your social security number:")
-            if len(ssn) > 0:
-                break
+        print("===================================")
+        print("Record retrieved")
+        print("===================================")
+        print(self.sendData())
+        print("===================================")
 
-        return ssn
+        self.__menu = self.menuMain
 
-
-    def getUserProvider(self):
-
-        provider = ""
-        while True:
-            provider = raw_input("Enter your medical provider:")
-            if len(provider) > 0:
-                break
-
-        return provider
-
-
-    def sendData(self, sock, data):
-
-        sock.sendall(data)
-        data = sock.recv(1024)
-        print("Received " + data)
+        return True
 
 
     def main(self):
 
-        #try:
+        self.__sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.__sock.connect(("localhost", self.__port))
 
-        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        sock.connect(("localhost", 6019))
-
-        while True:
-
-            self.displayMenu()
-            option = self.getUserOption()
-            self.sendData(sock, option)
-
-            if option in ("N", "n"):
-
-                self.sendData(sock, self.getUserFirstName())
-                self.sendData(sock, self.getUserLastName())
-                self.sendData(sock, self.getUserSSN())
-                self.sendData(sock, self.getUserProvider())
-
-            elif option in ("Q", "q"):
-
-                sock.close()
-                break
-
-        #except:
-
-        #    pass
+        while self.__menu():
+            pass
