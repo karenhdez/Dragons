@@ -1,5 +1,6 @@
 import os, io, signal, fcntl
-from multiprocessing import Process
+from Queue import Empty
+from multiprocessing import Process, Queue
 from Blockchain.Block import *
 from Blockchain.Record import *
 from Verifier import *
@@ -28,16 +29,14 @@ class Handler:
 
             v = Verifier()
 
-            reader, writer = os.pipe()
-            fcntl.fcntl(reader, fcntl.F_SETFL, os.O_NONBLOCK)
-
-            p = Process(target=v.main, args=((b,reader,writer),))
+            queue = Queue()
+            p = Process(target=v.main, args=((b,queue),))
             p.start()
 
-            os.close(writer)
-            reader = io.open(reader, 'rb', 0)
+            #queue.close()
+            #queue.join_thread()
 
-            self.__pList.append((p.pid, reader))
+            self.__pList.append((p.pid, queue))
 
 
     def checkForFinishedProcesses(self):
@@ -47,12 +46,18 @@ class Handler:
         while not solved:
 
             for p in self.__pList:
-                reader = p[1]
-                solution = reader.read()
-                if solution != None:
-                    solved = True
-                    print("Process " + str(p[0]) + " found " + str(solution))
-                    break
+                queue = p[1]
+
+                solution = None
+                try:
+                    solution = queue.get_nowait()
+                except Empty:
+                    pass#print('no output yet')
+                else:
+                    if solution is not None:
+                        solved = True
+                        print("Process " + str(p[0]) + " found " + solution)
+                        break
 
 
     def killProcesses(self):
@@ -92,10 +97,9 @@ class Handler:
         r = Record('a', 'b', 1, 'c')
         b = UnverifiedBlock(r)
 
-        self.sendUnverifiedBlockToProcesses(b, 3)
-
         print("Waiting for verification")
 
+        self.sendUnverifiedBlockToProcesses(b, 3)
         self.checkForFinishedProcesses()
 
         print("Ended verification")

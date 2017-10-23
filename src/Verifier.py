@@ -10,16 +10,13 @@ class Verifier:
         self.__result = None
 
 
-    def tryVerifyingBlock(self, b, reader, writer):
+    def tryVerifyingBlock(self, b, queue):
 
-        os.close(reader)
-        writer = os.fdopen(writer, 'w')
 
         while not self.trySolvingWork(b):
             pass
 
-        writer.write(self.__result)
-        writer.close()
+        queue.put(self.__result)
 
 
     def trySolvingWork(self, b):
@@ -67,10 +64,9 @@ class Verifier:
         print("Started process " + str(os.getpid()))
 
         b = args[0]
-        reader = args[1]
-        writer = args[2]
+        queue = args[1]
 
-        self.tryVerifyingBlock(b, reader, writer)
+        self.tryVerifyingBlock(b, queue)
 
 
 
