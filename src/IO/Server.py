@@ -29,13 +29,10 @@ class Server:
 
         self.__handler.handleNewRecordRequest(firstName, lastName, ssn, provider)
 
-        #while not self.__handler.finished:
-        #    pass
-
 
     def getClientRecord(self, firstName, lastName, ssn, provider):
 
-        #list = self.__handler.handleSearchRequest(firstName, lastName, ssn, provider)
+        #return self.__handler.handleSearchRequest(firstName, lastName, ssn, provider)
         return "INFO"
 
 

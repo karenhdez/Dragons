@@ -152,7 +152,7 @@ class VerifiedBlock(Block):
 
         hash = self.__SHA256.encode('utf8')
 
-        #(self.__pubkey, self.__privkey) = rsa.newkeys(512)
+        (self.__pubkey, self.__privkey) = rsa.newkeys(512)
         signedSHA = rsa.encrypt(hash, pubkey)
 
         self.__signedSHA256 = signedSHA

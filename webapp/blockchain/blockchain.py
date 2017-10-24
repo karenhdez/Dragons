@@ -1,3 +1,5 @@
+import rsa
+
 from block import Block
 import time
 import hashlib
@@ -52,6 +54,15 @@ class Blockchain:
             'previous_hash': previous_hash or self.hash_block(self.blockchain[-1])
         }
 
+        block = json.dumps(block)
+        block = block.encode('utf8')
+
+        (pubkey, privkey) = rsa.newkeys(1024)
+        block = rsa.encrypt(block, pubkey)
+
+        #Privkey needs to be added to database
+
+
         # Reset the current list of patient events array
         self.current_patient_events = []
 
@@ -96,6 +107,7 @@ class Blockchain:
 
         serialized_block = json.dumps(block, sort_keys=True).encode()
 
+        curr_hash = None
         while complete == False:
             proof = proof + 1
             sha = hashlib.sha256()
