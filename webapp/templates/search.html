@@ -1,0 +1,73 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+Main
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='dashboard.css')}}">
+{% endblock %}
+
+{% block content %}
+{% include 'includes/_dashboard_navbar.html' %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+  <h2 class="page-header">Search Records</h2>
+    <div class="row placeholders">
+      <div class="col-xs-6 col-sm-3 placeholder">
+        <img id="ssn" onclick="displayForm(this.id)" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+        <h4>Search by SSN</h4>
+        <span class="text-muted"></span>
+      </div>
+      <div class="col-xs-6 col-sm-3 placeholder">
+        <img id="time" onclick="displayForm(this.id)" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+        <h4>Search by Time Frame</h4>
+        <span class="text-muted"></span>
+      </div>
+      <div class="col-xs-6 col-sm-3 placeholder">
+        <img id="provider" onclick="displayForm(this.id)" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" width="200" height="200" class="img-responsive" alt="Generic placeholder thumbnail">
+        <h4>Search by Health care Provider</h4>
+        <span class="text-muted"></span>
+      </div>
+    </div>
+
+    <form id="ssnForm" style="display: none" class="form-addRecord" method="POST" action="/search">
+        <h2 class="form-addRecord-heading">Enter SSN</h2>
+        {{ form1.hidden_tag() }}
+        {{ wtf.form_field(form1.ssn) }}
+         <button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
+    </form>
+    <form id="timeForm" style="display: none" class="form-addRecord" method="POST" action="/search">
+        <h2 class="form-addRecord-heading">Enter SSN</h2>
+        {{ form2.hidden_tag() }}
+        {{ wtf.form_field(form2.start_date) }}
+        {{ wtf.form_field(form2.end_date) }}
+         <button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
+    </form>
+    <form id="providerForm" style="display: none" class="form-addRecord" method="POST" action="/search">
+        <h2 class="form-addRecord-heading">Enter SSN</h2>
+        {{ form3.hidden_tag() }}
+        {{ wtf.form_field(form3.provider) }}
+         <button class="btn btn-lg btn-primary btn-block" type="submit">Search</button>
+    </form>
+
+    <script>
+        function displayForm(clicked_id) {
+            if(clicked_id == 'ssn') {
+                document.getElementById("ssnForm").style.display = "block";
+                document.getElementById("timeForm").style.display = "none";
+                document.getElementById("providerForm").style.display = "none";
+            } else if(clicked_id == 'time') {
+                document.getElementById("timeForm").style.display = "block";
+                document.getElementById("ssnForm").style.display = "none";
+                document.getElementById("providerForm").style.display = "none";
+            } else if(clicked_id == 'provider') {
+                document.getElementById("providerForm").style.display = "block";
+                document.getElementById("ssnForm").style.display = "none";
+                document.getElementById("timeForm").style.display = "none";
+            }
+        }
+    </script>
+</div>
+{% endblock %}
