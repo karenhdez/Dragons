@@ -1,0 +1,32 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %}
+Add New Patient
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='dashboard.css')}}">
+{% endblock %}
+
+{% block content %}
+{% include 'includes/_dashboard_navbar.html' %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <div class="container">
+        <form class="form-addRecord" method="POST" action="/patient/new">
+            <h2 class="form-addRecord-heading">Enter New Patient Information</h2>
+            {{ form.hidden_tag() }}
+            {{ wtf.form_field(form.name) }}
+            {{ wtf.form_field(form.patient_id) }}
+            {{ wtf.form_field(form.ssn) }}
+            {{ wtf.form_field(form.provider) }}
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Add Patient</button>
+        </form>
+    </div> <!-- /container -->
+</div>
+{% endblock %}
+
+<script>
+
+</script>
