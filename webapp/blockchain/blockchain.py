@@ -1,4 +1,4 @@
-from blockchain.block import Block
+from block import Block
 import time
 import hashlib
 import json
