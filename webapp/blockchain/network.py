@@ -21,7 +21,7 @@ dragoncoin = Blockchain()
 @app.route('/mine', methods=['GET'])
 def mine():
     proof, hashed_block = dragoncoin.proof_of_work(dragoncoin.last_block)
-    results = {"message": "New block wasadded to the blockchain",
+    results = {"message": "New block was added to the blockchain",
 
                 "proof": proof,
                 "hashed_block": hashed_block}
@@ -67,6 +67,13 @@ def full_blockchain():
         'chain': dragoncoin.blockchain,
         'length': len(dragoncoin.blockchain)
     }
+    return jsonify(response)
+
+#Mine and add block
+@app.route('/add_block', methods=['GET'])
+def add_block():
+    proof, hashed_block  = dragoncoin.proof_of_work(dragoncoin.last_block)
+    response = dragoncoin.add_block(proof)
     return jsonify(response)
     
 if __name__ =='__main__':

@@ -1,0 +1,35 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}
+Main
+{% endblock %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='dashboard.css')}}">
+{% endblock %}
+
+{% block content %}
+{% include 'includes/_dashboard_navbar.html' %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h2 class="sub-header">Block</h2>
+    <div class="container">
+        <h4>Block Data</h4>
+        <div class="table-responsive">
+            <label>Index: </label>{{ block['index'] }} <br>
+            <label>Previous Hash: </label>{{ block['previous_hash'] }} <br>
+            <label>Proof: </label>{{ block['proof'] }} <br>
+            <label>Timestamp: </label>{{ block['timestamp'] }} <br>
+        </div>
+    </div>
+    <br><br>
+    <div class="container">
+        <h4>Record Added</h4>
+        <label>Name: </label>{{ block['patient_events'][0]['name'] }} <br>
+        <label>Provider: </label>{{ block['patient_events'][0]['provider'] }} <br>
+        <label>ID: </label>{{ block['patient_events'][0]['patient_id'] }} <br>
+        <label>Time: </label>{{ block['patient_events'][0]['timestamp'] }} <br>
+    </div>
+</div>
+
+{% endblock %}

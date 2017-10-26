@@ -12,13 +12,12 @@ Main
 {% block content %}
 {% include 'includes/_dashboard_navbar.html' %}
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-    <h2 class="sub-header">Records</h2>
+    <h2 class="sub-header">Resulting Records</h2>
 
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
                 <tr>
-                  <th>Block ID</th>
                   <th>Name</th>
                   <th>Patient ID</th>
                   <th>Provider</th>
@@ -27,17 +26,12 @@ Main
               </thead>
               <tbody>
               {% for record in records %}
-                {% for event in record['patient_events'] %}
-                  {% if event != [] %}
                   <tr>
-                    <td>{{ record['index'] }}</td>
-                    <td>{{ event['name'] }}</td>
-                    <td>{{ event['patient_id'] }}</td>
-                    <td>{{ event['provider'] }}</td>
-                    <td>{{ event['timestamp'] }}</td>
+                    <td>{{ record['name'] }}</td>
+                    <td>{{ record['patient_id'] }}</td>
+                    <td>{{ record['provider'] }}</td>
+                    <td>{{ record['timestamp'] }}</td>
                   </tr>
-                  {% endif %}
-                {% endfor %}
               {% endfor %}
               </tbody>
         </table>
