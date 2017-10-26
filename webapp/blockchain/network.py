@@ -20,13 +20,17 @@ dragoncoin = Blockchain()
 
 @app.route('/mine', methods=['GET'])
 def mine():
-    proof, hashed_block = dragoncoin.proof_of_work(dragoncoin.last_block)
-    results = {"message": "New block wasadded to the blockchain",
 
+    proof, hashed_block = dragoncoin.proof_of_work(dragoncoin.last_block)
+
+    block = dragoncoin.add_block(proof, dragoncoin.hash_block(dragoncoin.last_block))
+    response = {"message": "New block was added to the blockchain",
+                "index": block['index'],
+                "patient_events": block["patient_events"],
                 "proof": proof,
-                "hashed_block": hashed_block}
+                "previous_hash": block["previous_hash"]}
                
-    return jsonify(results), 201
+    return jsonify(response), 201
 
 @app.route('/patient_event/new', methods=['POST'])
 def new_patient_event():
@@ -55,7 +59,9 @@ def new_patient_event():
     
   
     tender = values
-    response = {'message': f'{tender} Patient event will be added to the Block {index}'}
+    response = {'message': f'Patient event will be added to the Block {index}',
+                "POST request": f"{values}",
+                "current_patient_events": f'{dragoncoin.current_patient_events}'}
     
     return jsonify(response), 201
 
@@ -68,6 +74,10 @@ def full_blockchain():
         'length': len(dragoncoin.blockchain)
     }
     return jsonify(response)
-    
+
+
+@app.route('/nodes/register')
+
+
 if __name__ =='__main__':
     app.run(debug=True,port=5000)
