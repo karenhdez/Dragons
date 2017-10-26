@@ -166,3 +166,14 @@ def full_blockchain():
         'length': len(dragoncoin.blockchain)
     }
     return jsonify(response)
+
+
+@app.route('/mine', methods=['GET'])
+def mine():
+    proof, hashed_block = dragoncoin.proof_of_work(dragoncoin.last_block)
+    results = {"message": "New block wasadded to the blockchain",
+
+               "proof": proof,
+               "hashed_block": hashed_block}
+
+    return jsonify(results)
