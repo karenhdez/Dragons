@@ -32,7 +32,7 @@ class Blockchain:
         })
 
         return self.last_block['index'] + 1
-    
+
     def add_block(self, proof, previous_hash=None):
         '''
         Add a new Block into the Blockchain.
@@ -76,7 +76,7 @@ class Blockchain:
         Returns the last block in the chain
         '''
         return self.blockchain[-1]
-    
+
     def is_blockchain_valid(self):
         pass
 
@@ -107,4 +107,3 @@ class Blockchain:
             if curr_hash.startswith('00000'):
                 complete = True
         return proof, curr_hash
-
