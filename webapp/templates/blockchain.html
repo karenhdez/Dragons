@@ -12,9 +12,31 @@ Main
 {% block content %}
 {% include 'includes/_dashboard_navbar.html' %}
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-    <h2 class="sub-header">Block</h2>
-    <div class="container">
-        {{ blockchain }}
+    <h2 class="sub-header">Blockchain</h2><br><br>
+        <label>Length: </label>  {{ blockchain['length'] }} <br><br>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                  <th>Index</th>
+                  <th>Previous Hash</th>
+                  <th>Proof</th>
+                  <th>Timestamp</th>
+                    <th>Patient Events</th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for block in blockchain['chain'] %}
+                  <tr>
+                    <td>{{ block['index'] }}</td>
+                    <td>{{ block['previous_hash'] }}</td>
+                    <td>{{ block['proof'] }}</td>
+                    <td>{{ block['timestamp'] }}</td>
+                      <td>{{ block['patient_events'] }}</td>
+                  </tr>
+              {% endfor %}
+              </tbody>
+        </table>
     </div>
 </div>
 

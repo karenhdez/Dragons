@@ -18,7 +18,6 @@ Main
         <table class="table table-striped">
             <thead>
                 <tr>
-                  <th>Block ID</th>
                   <th>Name</th>
                   <th>Patient ID</th>
                   <th>Provider</th>
@@ -27,17 +26,14 @@ Main
               </thead>
               <tbody>
               {% for record in records %}
-                {% for event in record['patient_events'] %}
-                  {% if event != [] %}
+                {% if record != [] %}
                   <tr>
-                    <td>{{ record['index'] }}</td>
-                    <td>{{ event['name'] }}</td>
-                    <td>{{ event['patient_id'] }}</td>
-                    <td>{{ event['provider'] }}</td>
-                    <td>{{ event['timestamp'] }}</td>
+                    <td>{{ record['name'] }}</td>
+                    <td>{{ record['patient_id'] }}</td>
+                    <td>{{ record['provider'] }}</td>
+                    <td>{{ record['timestamp'] }}</td>
                   </tr>
-                  {% endif %}
-                {% endfor %}
+                {% endif %}
               {% endfor %}
               </tbody>
         </table>
