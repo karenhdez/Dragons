@@ -7,7 +7,9 @@ from flask_login import LoginManager, UserMixin, login_user, login_required, log
 from blockchain.blockchain import Blockchain
 from uuid import uuid4
 import time
+import json
 
+import requests
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'login'
@@ -29,7 +31,7 @@ def index():
 def login():
     form = LoginForm()
 
-    #Check if the form is submitted, 
+    #Check if the form is submitted,
     if form.validate_on_submit():
         #usernames are unique so it's okay to return the first query we find
         user = User.query.filter_by(username=form.username.data).first()
@@ -66,7 +68,7 @@ def signup():
         new_user = User(email=form.email.data,
                         username=form.username.data,
                         password=hashed_password)
-                        
+
         db.session.add(new_user)
         db.session.commit()
 
@@ -166,3 +168,9 @@ def full_blockchain():
         'length': len(dragoncoin.blockchain)
     }
     return jsonify(response)
+
+
+@app.route("/testingblockchainapi", methods=['GET'])
+def testblockchain():
+    r =requests.get('http://127.0.0.1:5000/blockchain').content
+    return jsonify(json.loads(r))
