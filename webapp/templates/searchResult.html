@@ -12,7 +12,7 @@ Main
 {% block content %}
 {% include 'includes/_dashboard_navbar.html' %}
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-    <h2 class="sub-header">Records</h2>
+    <h2 class="sub-header">Resulting Records</h2>
 
     <div class="table-responsive">
         <table class="table table-striped">
@@ -26,14 +26,12 @@ Main
               </thead>
               <tbody>
               {% for record in records %}
-                {% if record != [] %}
                   <tr>
                     <td>{{ record['name'] }}</td>
                     <td>{{ record['patient_id'] }}</td>
                     <td>{{ record['provider'] }}</td>
                     <td>{{ record['timestamp'] }}</td>
                   </tr>
-                {% endif %}
               {% endfor %}
               </tbody>
         </table>

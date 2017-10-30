@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, TextAreaField, IntegerField, DateField
+from wtforms import StringField, PasswordField, BooleanField, TextAreaField, IntegerField, DateField, HiddenField
 from wtforms.validators import InputRequired, Email, Length, Optional, NumberRange
 
 class LoginForm(FlaskForm):
@@ -21,6 +21,9 @@ class AddRecordForm(FlaskForm):
 
 class SearchBySSN(FlaskForm):
     ssn = IntegerField('SSN', validators=[InputRequired()])
+
+class SearchByName(FlaskForm):
+    first_name = StringField('Patient First Name', validators=[InputRequired(), Length(max=50)])
 
 class SearchByTimeFrame(FlaskForm):
     start_date = DateField('Start Date', validators=[InputRequired()])

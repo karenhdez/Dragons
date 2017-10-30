@@ -28,12 +28,14 @@
           <ul class="nav nav-sidebar">
             <li class="active"><a href="{{ url_for('dashboard') }}">Dashboard<span class="sr-only">(current)</span></a></li>
             <li><a href="{{ url_for('search') }}">Search Records</a></li>
-            <li><a href="{{ url_for('addRecord') }}">Add Record</a></li>
-            <li><a href="#">Verify Records</a></li>
-            <li><a href="{{ url_for('viewRecords') }}">View Records</a></li>
-              <li><a href="{{ url_for('addPatient') }}">Add Patient</a></li>
-              <li><a href="{{ url_for('full_blockchain') }}">Get Blockchain</a></li>
+            <li><a href="{{ url_for('view_records') }}">View Records</a></li>
+              <li><a href="{{ url_for('add_record') }}">Add Record</a></li>
           </ul>
+            <ul class="nav nav-sidebar">
+                <h3>Developer Tools</h3>
+                <li><a href="{{ url_for('view_blockchain') }}">Get Blockchain</a></li>
+                <li><a href="#">Verify Records</a></li>
+            </ul>
         </div>
     </div>
 </div>

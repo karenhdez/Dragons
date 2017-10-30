@@ -12,28 +12,28 @@ Main
 {% block content %}
 {% include 'includes/_dashboard_navbar.html' %}
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-    <h2 class="sub-header">Records</h2>
-
+    <h2 class="sub-header">Blockchain</h2><br><br>
+        <label>Length: </label>  {{ blockchain['length'] }} <br><br>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
                 <tr>
-                  <th>Name</th>
-                  <th>Patient ID</th>
-                  <th>Provider</th>
-                  <th>Time</th>
+                  <th>Index</th>
+                  <th>Previous Hash</th>
+                  <th>Proof</th>
+                  <th>Timestamp</th>
+                    <th>Patient Events</th>
                 </tr>
               </thead>
               <tbody>
-              {% for record in records %}
-                {% if record != [] %}
+              {% for block in blockchain['chain'] %}
                   <tr>
-                    <td>{{ record['name'] }}</td>
-                    <td>{{ record['patient_id'] }}</td>
-                    <td>{{ record['provider'] }}</td>
-                    <td>{{ record['timestamp'] }}</td>
+                    <td>{{ block['index'] }}</td>
+                    <td>{{ block['previous_hash'] }}</td>
+                    <td>{{ block['proof'] }}</td>
+                    <td>{{ block['timestamp'] }}</td>
+                      <td>{{ block['patient_events'] }}</td>
                   </tr>
-                {% endif %}
               {% endfor %}
               </tbody>
         </table>

@@ -30,6 +30,15 @@ def mine():
                 "proof": proof,
                 "previous_hash": block["previous_hash"]}
 
+
+    responseBlockchain = {
+        'chain': dragoncoin.blockchain,
+        'length': len(dragoncoin.blockchain)
+    }
+
+    with open('file.json', 'w') as f:
+        json.dump(responseBlockchain, f)
+
     return jsonify(response), 201
 
 @app.route('/patient_event/new', methods=['POST'])
@@ -73,6 +82,7 @@ def full_blockchain():
         'chain': dragoncoin.blockchain,
         'length': len(dragoncoin.blockchain)
     }
+
     return jsonify(response)
 
 
@@ -82,4 +92,10 @@ def register_node():
 
 
 if __name__ =='__main__':
+    try:
+        with open('file.json') as data_file:
+            data = json.load(data_file)
+            dragoncoin.blockchain = data['chain']
+    except:
+        pass
     app.run(debug=True,port=5000)
